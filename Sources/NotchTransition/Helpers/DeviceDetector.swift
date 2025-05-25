@@ -89,4 +89,19 @@ internal struct DeviceDetector {
             return (width: 130, height: 35)
         }
     }
+    
+    static func deviceTypeDescription() -> String {
+        return switch DeviceDetector.currentDevice {
+        case .iPhoneWithDynamicIsland:
+            "iPhone with Dynamic Island"
+        case .iPhoneWithNotch:
+            "iPhone with Notch"
+        case .iPhoneWithoutNotch:
+            "iPhone without Notch"
+        case .iPad:
+            "iPad"
+        case .unknown:
+            "Unknown Device"
+        }
+    }
 }
