@@ -1,5 +1,5 @@
 //
-//  File.swift
+//  View+NotchTransition.swift
 //  NotchTransition
 //
 //  Created by Eugene Kovs on 25.05.2025.
@@ -21,7 +21,7 @@ public extension View {
         configuration: TransitionConfiguration = .default,
         @ViewBuilder content: @escaping () -> Content
     ) -> some View {
-        self.fullScreenCover(isPresented: isPresented) {
+        fullScreenCover(isPresented: isPresented) {
             NotchTransition(
                 isPresented: isPresented,
                 configuration: configuration,
@@ -36,7 +36,7 @@ public extension View {
         isPresented: Binding<Bool>,
         @ViewBuilder content: @escaping () -> Content
     ) -> some View {
-        self.notchTransition(
+        notchTransition(
             isPresented: isPresented,
             configuration: .slow,
             content: content
@@ -50,7 +50,7 @@ public extension View {
         material: Material? = .ultraThinMaterial,
         @ViewBuilder content: @escaping () -> Content
     ) -> some View {
-        self.notchTransition(
+        notchTransition(
             isPresented: isPresented,
             configuration: .themed(backgroundColor: backgroundColor, material: material),
             content: content

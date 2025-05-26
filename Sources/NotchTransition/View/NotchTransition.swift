@@ -41,7 +41,7 @@ public struct NotchTransition<Content: View>: View {
                 // Main transition shape
                 transitionShape(geometry: geometry)
                     .overlay {
-                        contentOverlay
+                        fullScreenCoverContent
                     }
             }
         }
@@ -85,7 +85,7 @@ public struct NotchTransition<Content: View>: View {
     
     // MARK: - Content Overlay
     @ViewBuilder
-    private var contentOverlay: some View {
+    private var fullScreenCoverContent: some View {
         if showContent {
             content()
                 .opacity(showContent ? 1 : 0)

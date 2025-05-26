@@ -15,8 +15,8 @@ internal struct DeviceDetector {
     // MARK: - Device Types
     enum DeviceType {
         case iPhoneWithDynamicIsland    // iPhone 14 Pro, 15 series, 16 series
-        case iPhoneWithNotch           // iPhone X, XS, 11, 12, 13 series
-        case iPhoneWithoutNotch        // iPhone SE, 8, 7 and older
+        case iPhoneWithNotch            // iPhone X, XS, 11, 12, 13 series
+        case iPhoneWithoutNotch         // iPhone SE, 8, 7 and older
         case iPad
         case unknown
     }
