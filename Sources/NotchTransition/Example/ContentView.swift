@@ -30,6 +30,15 @@ struct NotchTransitionExample: View {
             .navigationTitle("Dynamic Island")
             .navigationBarTitleDisplayMode(.large)
         }
+        .dynamicIslandTransition(isPresented: $showDefaultTransition) {
+            DefaultTransitedView(showTransition: $showDefaultTransition)
+        }
+        .dynamicIslandTransitionFast(isPresented: $showFastTransition) {
+            DefaultTransitedView(showTransition: $showFastTransition)
+        }
+        .dynamicIslandTransitionSlow(isPresented: $showThemedTransition) {
+            DefaultTransitedView(showTransition: $showThemedTransition)
+        }
         
     }
     
@@ -163,4 +172,9 @@ struct NotchTransitionExample: View {
             backgroundMaterial: .regularMaterial
         )
     }
+}
+
+@available(iOS 16.4, *)
+#Preview {
+    NotchTransitionExample()
 }
