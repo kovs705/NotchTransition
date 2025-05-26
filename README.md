@@ -29,7 +29,7 @@ Add the following to your `Package.swift` file:
 
 ```swift
 dependencies: [
-    .package(url: "https://github.com/yourusername/notchTransition.git", from: "1.0.0")
+    .package(url: "https://github.com/kovs705/NotchTransition.git", branch: "main")
 ]
 ```
 
@@ -113,10 +113,10 @@ let customConfig = TransitionConfiguration(
 
 ```swift
 struct AnimationTimings {
-    let initial: TimeInterval           // Delay before animation starts
-    let notchToRectangle: TimeInterval  // Time to expand from notch to rectangle
+    let initial: TimeInterval               // Delay before animation starts
+    let notchToRectangle: TimeInterval      // Time to expand from notch to rectangle
     let rectangleToFullscreen: TimeInterval // Time to expand to fullscreen
-    let contentAppearance: TimeInterval // Time for content to appear
+    let contentAppearance: TimeInterval     // Time for content to appear
 }
 ```
 
@@ -197,10 +197,8 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 If you encounter any issues or have questions:
 
-1. Check the [Issues](https://github.com/yourusername/notchTransition/issues) page
+1. Check the [Issues](https://github.com/kovs705/NotchTransition/issues) page
 2. Create a new issue with detailed information
 3. Include device model, iOS version, and code samples
 
 ---
-
-Made with ❤️ for the iOS development community
