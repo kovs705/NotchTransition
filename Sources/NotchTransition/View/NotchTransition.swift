@@ -33,27 +33,22 @@ public struct NotchTransition<Content: View>: View {
     
     // MARK: - Body
     public var body: some View {
-        GeometryReader { geometry in
-            ZStack {
-                // Background
+        transitionShape(screenSize: getTheScreenRect())
+            .background(
                 backgroundView
-                
-                // Main transition shape
-                transitionShape(geometry: geometry)
-                    .overlay {
-                        fullScreenCoverContent
-                    }
+            )
+            .overlay {
+                fullScreenCoverContent
             }
-        }
-        .ignoresSafeArea(.all)
-        .onAppear {
-            startAnimation()
-        }
-        .onChange(of: isPresented) { newValue in
-            if !newValue {
-                dismissAnimation()
+            .ignoresSafeArea(.all)
+            .onAppear {
+                startAnimation()
             }
-        }
+            .onChange(of: isPresented) { newValue in
+                if !newValue {
+                    dismissAnimation()
+                }
+            }
     }
     
     // MARK: - Background View
@@ -70,16 +65,16 @@ public struct NotchTransition<Content: View>: View {
     }
     
     // MARK: - Transition Shape
-    private func transitionShape(geometry: GeometryProxy) -> some View {
+    private func transitionShape(screenSize: CGRect) -> some View {
         RoundedRectangle(cornerRadius: currentCornerRadius)
             .fill(configuration.backgroundColor)
             .frame(
-                width: currentWidth(geometry: geometry),
-                height: currentHeight(geometry: geometry)
+                width: currentWidth(screenWidth: screenSize.width),
+                height: currentHeight(screenHeight: screenSize.height)
             )
             .position(
-                x: geometry.size.width / 2,
-                y: currentYPosition(geometry: geometry)
+                x: screenSize.width / 2,
+                y: currentYPosition(screenHight: screenSize.height)
             )
     }
     
@@ -173,7 +168,7 @@ extension NotchTransition {
         }
     }
     
-    private func currentWidth(geometry: GeometryProxy) -> CGFloat {
+    private func currentWidth(screenWidth: CGFloat) -> CGFloat {
         switch animationPhase {
         case .hidden:
             return 0
@@ -182,11 +177,11 @@ extension NotchTransition {
         case .rectangle:
             return configuration.deviceSizes.rectangleWidth
         case .fullscreen:
-            return geometry.size.width
+            return screenWidth
         }
     }
     
-    private func currentHeight(geometry: GeometryProxy) -> CGFloat {
+    private func currentHeight(screenHeight: CGFloat) -> CGFloat {
         switch animationPhase {
         case .hidden:
             return 0
@@ -195,16 +190,16 @@ extension NotchTransition {
         case .rectangle:
             return configuration.deviceSizes.rectangleHeight
         case .fullscreen:
-            return geometry.size.height
+            return screenHeight
         }
     }
     
-    private func currentYPosition(geometry: GeometryProxy) -> CGFloat {
+    private func currentYPosition(screenHight: CGFloat) -> CGFloat {
         switch animationPhase {
         case .hidden, .notch, .rectangle:
-            return configuration.deviceSizes.topOffset + (currentHeight(geometry: geometry) / 2)
+            return configuration.deviceSizes.topOffset + (currentHeight(screenHeight: screenHight) / 2)
         case .fullscreen:
-            return geometry.size.height / 2
+            return screenHight / 2
         }
     }
 }
