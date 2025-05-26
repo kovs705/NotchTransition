@@ -1,6 +1,25 @@
-# NotchTransition
+<div align="center">
+  <img width="300" height="330" src="/Assets/NotchTransition.png" alt="">
+  <h1><b>NotchTransition</b></h1>
+  <p>
+    <b>Library for custom navigation transition from the iPhone's notch</b>
+    <br>
+    <i>Compatible with iOS 16.4 and later</i>
+  </p>
+</div>
 
-A SwiftUI library that provides a smooth transition animation starting from the iPhone's Dynamic Island (or notch area for older devices), expanding to fill the entire screen. The library automatically adapts to different iPhone models and screen sizes.
+<div align="center">
+  <a href="https://swift.org">
+<!--     <img src="https://img.shields.io/badge/Swift-5.9%20%7C%206-orange.svg" alt="Swift Version"> -->
+    <img src="https://img.shields.io/badge/Swift-5.9-orange.svg" alt="Swift Version">
+  </a>
+  <a href="https://www.apple.com/ios/">
+    <img src="https://img.shields.io/badge/iOS-16.4%2B-blue.svg" alt="iOS">
+  </a>
+  <a href="LICENSE">
+    <img src="https://img.shields.io/badge/License-MIT-green.svg" alt="License: MIT">
+  </a>
+</div>
 
 ## Features
 
