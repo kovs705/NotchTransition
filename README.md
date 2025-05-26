@@ -8,7 +8,7 @@ A SwiftUI library that provides a smooth transition animation starting from the 
 - 📱 **Universal Support**: Works on all iPhone models and iPad
 - ⚡ **Smooth Animations**: Bouncy, fluid animations with customizable timing
 - 🎨 **Themeable**: Support for custom colors, materials, and backgrounds
-- 🛠️ **Configurable**: Multiple preset configurations (default, fast, slow) and full customization
+- 🛠️ **Configurable**: Multiple preset configurations (default, slow) and full customization
 - 📦 **Easy Integration**: Simple SwiftUI view modifier for quick implementation
 - 🔧 **iOS 16+**: Built for modern iOS with SwiftUI best practices
 
@@ -70,12 +70,6 @@ struct ContentView: View {
 
 ### Predefined Configurations
 
-```swift
-// Fast animation
-.dynamicIslandTransitionFast(isPresented: $showFast) {
-    FastContent()
-}
-
 // Slow animation
 .dynamicIslandTransitionSlow(isPresented: $showSlow) {
     SlowContent()
@@ -128,7 +122,6 @@ struct AnimationTimings {
 
 **Presets:**
 - `.default`: Balanced timing (0.27s, 0.8s, 0.6s, 0.5s)
-- `.fast`: Quick animations (0.15s, 0.5s, 0.4s, 0.3s)
 - `.slow`: Leisurely animations (0.4s, 1.2s, 0.8s, 0.7s)
 
 ### Visual Customization
