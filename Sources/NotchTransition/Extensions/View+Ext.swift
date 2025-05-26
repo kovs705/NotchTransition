@@ -16,13 +16,13 @@ public extension View {
     ///   - isPresented: Binding to control presentation state
     ///   - configuration: Configuration for animation timing and appearance
     ///   - content: The content to present after animation
-    func dynamicIslandTransition<Content: View>(
+    func notchTransition<Content: View>(
         isPresented: Binding<Bool>,
         configuration: TransitionConfiguration = .default,
         @ViewBuilder content: @escaping () -> Content
     ) -> some View {
         self.fullScreenCover(isPresented: isPresented) {
-            DynamicIslandTransition(
+            NotchTransition(
                 isPresented: isPresented,
                 configuration: configuration,
                 content: content
@@ -32,11 +32,11 @@ public extension View {
     }
     
     /// Present a view with Dynamic Island transition using predefined slow animation
-    func dynamicIslandTransitionSlow<Content: View>(
+    func notchTransitionSlow<Content: View>(
         isPresented: Binding<Bool>,
         @ViewBuilder content: @escaping () -> Content
     ) -> some View {
-        self.dynamicIslandTransition(
+        self.notchTransition(
             isPresented: isPresented,
             configuration: .slow,
             content: content
@@ -44,13 +44,13 @@ public extension View {
     }
     
     /// Present a view with Dynamic Island transition using custom theme
-    func dynamicIslandTransition<Content: View>(
+    func notchTransition<Content: View>(
         isPresented: Binding<Bool>,
         backgroundColor: Color,
         material: Material? = .ultraThinMaterial,
         @ViewBuilder content: @escaping () -> Content
     ) -> some View {
-        self.dynamicIslandTransition(
+        self.notchTransition(
             isPresented: isPresented,
             configuration: .themed(backgroundColor: backgroundColor, material: material),
             content: content

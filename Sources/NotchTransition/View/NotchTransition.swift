@@ -1,5 +1,5 @@
 //
-//  DynamicIslandTransition.swift
+//  notchTransition.swift
 //  NotchTransition
 //
 //  Created by Eugene Kovs on 25.05.2025.
@@ -10,7 +10,7 @@ import SwiftUI
 
 // MARK: - Main Dynamic Island Transition View
 @available(iOS 16.4, *)
-public struct DynamicIslandTransition<Content: View>: View {
+public struct NotchTransition<Content: View>: View {
     
     // MARK: - Properties
     @Binding private var isPresented: Bool
@@ -96,7 +96,7 @@ public struct DynamicIslandTransition<Content: View>: View {
 
 // MARK: - Animation Phases
 @available(iOS 16.4, *)
-extension DynamicIslandTransition {
+extension NotchTransition {
     private enum AnimationPhase {
         case hidden
         case notch
@@ -107,7 +107,7 @@ extension DynamicIslandTransition {
 
 // MARK: - Animation Logic
 @available(iOS 16.4, *)
-extension DynamicIslandTransition {
+extension NotchTransition {
     private func startAnimation() {
         Task { @MainActor in
             // Reset state
@@ -159,7 +159,7 @@ extension DynamicIslandTransition {
 
 // MARK: - Computed Properties
 @available(iOS 16.4, *)
-extension DynamicIslandTransition {
+extension NotchTransition {
     private var currentCornerRadius: CGFloat {
         switch animationPhase {
         case .hidden:

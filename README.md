@@ -1,4 +1,4 @@
-# DynamicIslandTransition
+# notchTransition
 
 A SwiftUI library that provides a smooth transition animation starting from the iPhone's Dynamic Island (or notch area for older devices), expanding to fill the entire screen. The library automatically adapts to different iPhone models and screen sizes.
 
@@ -29,7 +29,7 @@ Add the following to your `Package.swift` file:
 
 ```swift
 dependencies: [
-    .package(url: "https://github.com/yourusername/DynamicIslandTransition.git", from: "1.0.0")
+    .package(url: "https://github.com/yourusername/notchTransition.git", from: "1.0.0")
 ]
 ```
 
@@ -44,7 +44,7 @@ Or add it through Xcode:
 
 ```swift
 import SwiftUI
-import DynamicIslandTransition
+import notchTransition
 
 struct ContentView: View {
     @State private var showTransition = false
@@ -53,7 +53,7 @@ struct ContentView: View {
         Button("Show Transition") {
             showTransition = true
         }
-        .dynamicIslandTransition(isPresented: $showTransition) {
+        .notchTransition(isPresented: $showTransition) {
             VStack {
                 Text("Hello from Dynamic Island!")
                     .foregroundColor(.white)
@@ -71,12 +71,12 @@ struct ContentView: View {
 ### Predefined Configurations
 
 // Slow animation
-.dynamicIslandTransitionSlow(isPresented: $showSlow) {
+.notchTransitionSlow(isPresented: $showSlow) {
     SlowContent()
 }
 
 // Themed with custom colors
-.dynamicIslandTransition(
+.notchTransition(
     isPresented: $showThemed,
     backgroundColor: .purple,
     material: .ultraThinMaterial
@@ -99,7 +99,7 @@ let customConfig = TransitionConfiguration(
     backgroundMaterial: .regularMaterial
 )
 
-.dynamicIslandTransition(
+.notchTransition(
     isPresented: $showCustom,
     configuration: customConfig
 ) {
@@ -171,21 +171,6 @@ The library includes comprehensive examples showing:
 
 Run the example project to see all features in action.
 
-## Architecture
-
-```
-DynamicIslandTransition/
-├── Sources/
-│   └── DynamicIslandTransition/
-│       ├── DynamicIslandTransition.swift      # Main transition view
-│       ├── DeviceDetector.swift               # Device detection utilities
-│       ├── TransitionConfiguration.swift      # Configuration options
-│       ├── View+DynamicIslandTransition.swift # SwiftUI extensions
-│       └── ExampleUsage.swift                 # Usage examples
-├── Tests/
-│   └── DynamicIslandTransitionTests/
-└── Package.swift
-```
 
 ## Contributing
 
@@ -196,8 +181,7 @@ Contributions are welcome! Please feel free to submit a Pull Request. For major 
 1. Clone the repository
 2. Open `Package.swift` in Xcode
 3. Make your changes
-4. Run tests
-5. Submit a pull request
+4. Submit a pull request
 
 ## License
 
@@ -213,7 +197,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 If you encounter any issues or have questions:
 
-1. Check the [Issues](https://github.com/yourusername/DynamicIslandTransition/issues) page
+1. Check the [Issues](https://github.com/yourusername/notchTransition/issues) page
 2. Create a new issue with detailed information
 3. Include device model, iOS version, and code samples
 

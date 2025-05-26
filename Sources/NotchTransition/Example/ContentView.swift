@@ -7,7 +7,7 @@
 //
 
 import SwiftUI
-//import DynamicIslandTransition
+//import notchTransition
 
 // MARK: - Example Usage
 @available(iOS 16.4, *)
@@ -29,10 +29,10 @@ struct NotchTransitionExample: View {
             .navigationTitle("Dynamic Island")
             .navigationBarTitleDisplayMode(.large)
         }
-        .dynamicIslandTransition(isPresented: $showDefaultTransition) {
+        .notchTransition(isPresented: $showDefaultTransition) {
             DefaultTransitedView(showTransition: $showDefaultTransition)
         }
-        .dynamicIslandTransitionSlow(isPresented: $showSlowedTransition) {
+        .notchTransitionSlow(isPresented: $showSlowedTransition) {
             DefaultTransitedView(showTransition: $showSlowedTransition)
         }
         
@@ -123,11 +123,11 @@ struct NotchTransitionExample: View {
     @ViewBuilder func setupTransitions() -> some View {
         self
         // Default transition
-            .dynamicIslandTransition(isPresented: $showDefaultTransition) {
+            .notchTransition(isPresented: $showDefaultTransition) {
                 DefaultTransitionContent(isPresented: $showDefaultTransition)
             }
         // Slowed transition
-            .dynamicIslandTransition(
+            .notchTransition(
                 isPresented: $showSlowedTransition,
                 backgroundColor: .purple,
                 material: .ultraThinMaterial
@@ -135,7 +135,7 @@ struct NotchTransitionExample: View {
                 ThemedTransitionContent(isPresented: $showSlowedTransition)
             }
         // Custom configuration
-            .dynamicIslandTransition(
+            .notchTransition(
                 isPresented: $showCustomTransition,
                 configuration: customConfiguration
             ) {
