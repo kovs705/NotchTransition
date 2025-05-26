@@ -1,4 +1,4 @@
-# notchTransition
+# NotchTransition
 
 A SwiftUI library that provides a smooth transition animation starting from the iPhone's Dynamic Island (or notch area for older devices), expanding to fill the entire screen. The library automatically adapts to different iPhone models and screen sizes.
 
