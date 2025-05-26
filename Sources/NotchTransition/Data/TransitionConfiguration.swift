@@ -25,13 +25,6 @@ public struct TransitionConfiguration {
             contentAppearance: 0.5
         )
         
-        static public let fast = AnimationTimings(
-            initial: 0.15,
-            notchToRectangle: 0.5,
-            rectangleToFullscreen: 0.4,
-            contentAppearance: 0.3
-        )
-        
         static public let slow = AnimationTimings(
             initial: 0.4,
             notchToRectangle: 1.2,
@@ -145,10 +138,6 @@ public struct TransitionConfiguration {
     
     // MARK: - Predefined Configurations
     public static let `default` = TransitionConfiguration()
-    
-    public static let fast = TransitionConfiguration(
-        animationTimings: .fast
-    )
     
     public static let slow = TransitionConfiguration(
         animationTimings: .slow

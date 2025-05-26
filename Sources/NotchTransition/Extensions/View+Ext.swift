@@ -31,18 +31,6 @@ public extension View {
         }
     }
     
-    /// Present a view with Dynamic Island transition using predefined fast animation
-    func dynamicIslandTransitionFast<Content: View>(
-        isPresented: Binding<Bool>,
-        @ViewBuilder content: @escaping () -> Content
-    ) -> some View {
-        self.dynamicIslandTransition(
-            isPresented: isPresented,
-            configuration: .fast,
-            content: content
-        )
-    }
-    
     /// Present a view with Dynamic Island transition using predefined slow animation
     func dynamicIslandTransitionSlow<Content: View>(
         isPresented: Binding<Bool>,

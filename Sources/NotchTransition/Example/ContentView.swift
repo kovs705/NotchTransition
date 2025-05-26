@@ -13,8 +13,7 @@ import SwiftUI
 @available(iOS 16.4, *)
 struct NotchTransitionExample: View {
     @State private var showDefaultTransition = false
-    @State private var showFastTransition = false
-    @State private var showThemedTransition = false
+    @State private var showSlowedTransition = false
     @State private var showCustomTransition = false
     
     var body: some View {
@@ -33,11 +32,8 @@ struct NotchTransitionExample: View {
         .dynamicIslandTransition(isPresented: $showDefaultTransition) {
             DefaultTransitedView(showTransition: $showDefaultTransition)
         }
-        .dynamicIslandTransitionFast(isPresented: $showFastTransition) {
-            DefaultTransitedView(showTransition: $showFastTransition)
-        }
-        .dynamicIslandTransitionSlow(isPresented: $showThemedTransition) {
-            DefaultTransitedView(showTransition: $showThemedTransition)
+        .dynamicIslandTransitionSlow(isPresented: $showSlowedTransition) {
+            DefaultTransitedView(showTransition: $showSlowedTransition)
         }
         
     }
@@ -105,21 +101,12 @@ struct NotchTransitionExample: View {
             }
             
             TransitionButton(
-                title: "Fast Transition",
-                subtitle: "Quick and snappy animation",
-                icon: "forward.circle.fill",
-                color: .green
-            ) {
-                showFastTransition = true
-            }
-            
-            TransitionButton(
                 title: "Themed Transition",
                 subtitle: "Custom colors and materials",
                 icon: "paintbrush.fill",
                 color: .purple
             ) {
-                showThemedTransition = true
+                showSlowedTransition = true
             }
             
             TransitionButton(
@@ -139,17 +126,13 @@ struct NotchTransitionExample: View {
             .dynamicIslandTransition(isPresented: $showDefaultTransition) {
                 DefaultTransitionContent(isPresented: $showDefaultTransition)
             }
-        // Fast transition
-            .dynamicIslandTransitionFast(isPresented: $showFastTransition) {
-                FastTransitionContent(isPresented: $showFastTransition)
-            }
-        // Themed transition
+        // Slowed transition
             .dynamicIslandTransition(
-                isPresented: $showThemedTransition,
+                isPresented: $showSlowedTransition,
                 backgroundColor: .purple,
                 material: .ultraThinMaterial
             ) {
-                ThemedTransitionContent(isPresented: $showThemedTransition)
+                ThemedTransitionContent(isPresented: $showSlowedTransition)
             }
         // Custom configuration
             .dynamicIslandTransition(
