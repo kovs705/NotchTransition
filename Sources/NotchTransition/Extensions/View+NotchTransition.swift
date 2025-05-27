@@ -44,7 +44,7 @@ public extension View {
     }
     
     /// Present a view with Dynamic Island transition using custom theme
-    func notchTransition<Content: View>(
+    func notchTransitionThemed<Content: View>(
         isPresented: Binding<Bool>,
         backgroundColor: Color,
         material: Material? = .ultraThinMaterial,

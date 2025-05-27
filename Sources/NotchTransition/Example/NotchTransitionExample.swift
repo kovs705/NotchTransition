@@ -1,5 +1,5 @@
 //
-//  ContentView.swift
+//  NotchTransitionExample.swift
 //  NotchTransition
 //
 //  Created by Eugene Kovs on 25.05.2025.
@@ -11,12 +11,14 @@ import SwiftUI
 
 // MARK: - Example Usage
 @available(iOS 16.4, *)
-struct NotchTransitionExample: View {
+public struct NotchTransitionExample: View {
     @State private var showDefaultTransition = false
     @State private var showSlowedTransition = false
-    @State private var showCustomTransition = false
+    @State private var showThemedTransition = false
     
-    var body: some View {
+    public init() {}
+    
+    public var body: some View {
         NavigationView {
             ScrollView {
                 VStack(spacing: 24) {
@@ -34,6 +36,9 @@ struct NotchTransitionExample: View {
         }
         .notchTransitionSlow(isPresented: $showSlowedTransition) {
             DefaultTransitedView(showTransition: $showSlowedTransition)
+        }
+        .notchTransitionThemed(isPresented: $showThemedTransition, backgroundColor: .cyan) {
+            ThemedTransitionContent(isPresented: $showThemedTransition)
         }
         
     }
@@ -115,7 +120,7 @@ struct NotchTransitionExample: View {
                 icon: "gearshape.fill",
                 color: .orange
             ) {
-                showCustomTransition = true
+                showThemedTransition = true
             }
         }
     }
@@ -127,7 +132,7 @@ struct NotchTransitionExample: View {
                 DefaultTransitionContent(isPresented: $showDefaultTransition)
             }
         // Slowed transition
-            .notchTransition(
+            .notchTransitionThemed(
                 isPresented: $showSlowedTransition,
                 backgroundColor: .purple,
                 material: .ultraThinMaterial
@@ -136,10 +141,10 @@ struct NotchTransitionExample: View {
             }
         // Custom configuration
             .notchTransition(
-                isPresented: $showCustomTransition,
+                isPresented: $showThemedTransition,
                 configuration: customConfiguration
             ) {
-                CustomTransitionContent(isPresented: $showCustomTransition)
+                CustomTransitionContent(isPresented: $showThemedTransition)
             }
     }
     
