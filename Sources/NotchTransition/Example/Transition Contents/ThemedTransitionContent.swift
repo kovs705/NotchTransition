@@ -9,22 +9,23 @@
 import SwiftUI
 
 struct ThemedTransitionContent: View {
+    
     @Binding var isPresented: Bool
     
     var body: some View {
         VStack(spacing: 30) {
-            Image(systemName: "paintbrush.pointed.fill")
+            Image(systemName: "gearshape.2.fill")
                 .font(.system(size: 60))
-                .foregroundColor(.pink)
+                .foregroundColor(.cyan)
             
-            Text("Themed Transition")
+            Text("Custom Configuration")
                 .font(.largeTitle)
                 .fontWeight(.bold)
                 .foregroundColor(.white)
             
-            Text("Custom purple theme with ultra-thin material background.")
+            Text("Fully customized animation timings, colors, and materials.")
                 .font(.body)
-                .foregroundColor(.gray)
+                .foregroundColor(.white)
                 .multilineTextAlignment(.center)
                 .padding(.horizontal)
             
@@ -37,3 +38,10 @@ struct ThemedTransitionContent: View {
         .frame(maxWidth: .infinity, maxHeight: .infinity)
     }
 }
+
+#if DEBUG
+#Preview {
+    ThemedTransitionContent(isPresented: .constant(true))
+        .background(.cyan)
+}
+#endif

@@ -32,10 +32,10 @@ public struct NotchTransitionExample: View {
             .navigationBarTitleDisplayMode(.large)
         }
         .notchTransition(isPresented: $showDefaultTransition) {
-            DefaultTransitedView(showTransition: $showDefaultTransition)
+            DefaultTransitionContent(isPresented: $showDefaultTransition)
         }
         .notchTransitionSlow(isPresented: $showSlowedTransition) {
-            DefaultTransitedView(showTransition: $showSlowedTransition)
+            DefaultTransitionContent(isPresented: $showSlowedTransition)
         }
         .notchTransitionThemed(isPresented: $showThemedTransition, backgroundColor: .cyan) {
             ThemedTransitionContent(isPresented: $showThemedTransition)
@@ -106,19 +106,19 @@ public struct NotchTransitionExample: View {
             }
             
             TransitionButton(
-                title: "Themed Transition",
-                subtitle: "Custom colors and materials",
-                icon: "paintbrush.fill",
-                color: .purple
+                title: "Slowed Transition",
+                subtitle: "To see how it moves",
+                icon: "tortoise.fill",
+                color: .orange
             ) {
                 showSlowedTransition = true
             }
             
             TransitionButton(
                 title: "Custom Configuration",
-                subtitle: "Fully customized experience",
-                icon: "gearshape.fill",
-                color: .orange
+                subtitle: "Custom colors and materials",
+                icon: "paintbrush.fill",
+                color: .purple
             ) {
                 showThemedTransition = true
             }
@@ -144,7 +144,7 @@ public struct NotchTransitionExample: View {
                 isPresented: $showThemedTransition,
                 configuration: customConfiguration
             ) {
-                CustomTransitionContent(isPresented: $showThemedTransition)
+                ThemedTransitionContent(isPresented: $showThemedTransition)
             }
     }
     

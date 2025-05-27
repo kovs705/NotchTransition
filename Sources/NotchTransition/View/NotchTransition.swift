@@ -125,7 +125,7 @@ extension NotchTransition {
             
             // Phase 3: Expand to fullscreen
             try await Task.sleep(for: .seconds(configuration.animationTimings.rectangleToFullscreen))
-            withAnimation(.bouncy(duration: configuration.animationTimings.contentAppearance)) {
+            withAnimation(.interactiveSpring(duration: configuration.animationTimings.contentAppearance)) {
                 animationPhase = .fullscreen
             }
             

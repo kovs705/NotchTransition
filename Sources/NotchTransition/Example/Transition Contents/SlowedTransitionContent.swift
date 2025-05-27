@@ -1,5 +1,5 @@
 //
-//  FastTransitionContent.swift
+//  SlowedTransitionContent.swift
 //  NotchTransition
 //
 //  Created by Eugene Kovs on 25.05.2025.
@@ -8,7 +8,7 @@
 
 import SwiftUI
 
-struct FastTransitionContent: View {
+struct SlowedTransitionContent: View {
     @Binding var isPresented: Bool
     
     var body: some View {
@@ -17,12 +17,12 @@ struct FastTransitionContent: View {
                 .font(.system(size: 60))
                 .foregroundColor(.yellow)
             
-            Text("Fast Transition")
+            Text("Slowed Transition")
                 .font(.largeTitle)
                 .fontWeight(.bold)
                 .foregroundColor(.white)
             
-            Text("Quick and snappy animation for immediate feedback.")
+            Text("Slowed transition to see how animations work")
                 .font(.body)
                 .foregroundColor(.gray)
                 .multilineTextAlignment(.center)

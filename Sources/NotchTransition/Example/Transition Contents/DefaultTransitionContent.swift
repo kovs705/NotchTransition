@@ -9,6 +9,7 @@
 import SwiftUI
 
 struct DefaultTransitionContent: View {
+    
     @Binding var isPresented: Bool
     
     var body: some View {
@@ -33,3 +34,10 @@ struct DefaultTransitionContent: View {
         .frame(maxWidth: .infinity, maxHeight: .infinity)
     }
 }
+
+#if DEBUG
+#Preview {
+    DefaultTransitionContent(isPresented: .constant(true))
+        .background(.black)
+}
+#endif

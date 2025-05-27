@@ -63,9 +63,11 @@ Or add it through Xcode:
 
 ```swift
 import SwiftUI
-import notchTransition
+import NotchTransition
 
 struct ContentView: View {
+
+    /// One bool stands for animation of transition + presenting view, if `false` - screen dismisses
     @State private var showTransition = false
     
     var body: some View {
@@ -174,13 +176,13 @@ The transition consists of four distinct phases:
 
 ## Requirements
 
-- iOS 16.0+
-- Xcode 14.0+
+- iOS 16.4+
+- Xcode 15.0+
 - Swift 5.9+
 
 ## Examples
 
-The library includes comprehensive examples showing:
+The library includes comprehensive example showing:
 
 - Basic implementation
 - Different animation speeds
@@ -189,11 +191,12 @@ The library includes comprehensive examples showing:
 - Advanced configurations
 
 Run the example project to see all features in action.
+Sources/NotchTransition/Example/NotchTransitionExample.swift with Preview Canvas opened
 
 
 ## Contributing
 
-Contributions are welcome! Please feel free to submit a Pull Request. For major changes, please open an issue first to discuss what you would like to change.
+Contributions are welcome! Please feel free to submit a Pull Request. For major changes, please open an issue first to discuss what you would like to change!
 
 ### Development Setup
 
@@ -206,12 +209,6 @@ Contributions are welcome! Please feel free to submit a Pull Request. For major 
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-## Acknowledgments
-
-- Inspired by iOS Dynamic Island interaction patterns
-- Built with SwiftUI and modern iOS design principles
-- Thanks to the Swift community for feedback and suggestions
-
 ## Support
 
 If you encounter any issues or have questions:
@@ -221,3 +218,4 @@ If you encounter any issues or have questions:
 3. Include device model, iOS version, and code samples
 
 ---
+Inspired by iOS Dynamic Island transition on X
