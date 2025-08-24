@@ -31,6 +31,7 @@ public struct NotchTransitionExample: View {
             .navigationTitle("Dynamic Island")
             .navigationBarTitleDisplayMode(.large)
         }
+        
         .notchTransition(isPresented: $showDefaultTransition) {
             DefaultTransitionContent(isPresented: $showDefaultTransition)
         }
