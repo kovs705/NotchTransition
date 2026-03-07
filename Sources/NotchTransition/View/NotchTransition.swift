@@ -19,6 +19,7 @@ public struct NotchTransition<Content: View>: View {
     
     @State private var animationPhase: AnimationPhase = .hidden
     @State private var showContent = false
+    @State private var dismissOffset: CGFloat = 0
     
     // MARK: - Initialization
     public init(
@@ -40,6 +41,7 @@ public struct NotchTransition<Content: View>: View {
             .overlay {
                 fullScreenCoverContent
             }
+            .offset(y: dismissOffset)
             .ignoresSafeArea(.all)
             .onAppear {
                 startAnimation()
@@ -108,28 +110,23 @@ extension NotchTransition {
             // Reset state
             animationPhase = .hidden
             showContent = false
-            
-            // Initial delay
-            try await Task.sleep(for: .seconds(configuration.animationTimings.initial))
-            
-            // Phase 1: Show from notch
+            dismissOffset = 0
+
+            // Snap to notch size instantly — sits behind the Dynamic Island, invisible
+            animationPhase = .notch
+
+            // Phase 1: Expand from Dynamic Island outward to rectangle
             withAnimation(.bouncy(duration: configuration.animationTimings.notchToRectangle)) {
-                animationPhase = .notch
-            }
-            
-            // Phase 2: Extend to rectangle
-            try await Task.sleep(for: .seconds(configuration.animationTimings.notchToRectangle))
-            withAnimation(.bouncy(duration: configuration.animationTimings.rectangleToFullscreen)) {
                 animationPhase = .rectangle
             }
-            
-            // Phase 3: Expand to fullscreen
-            try await Task.sleep(for: .seconds(configuration.animationTimings.rectangleToFullscreen))
+
+            // Phase 2: Expand to fullscreen
+            try await Task.sleep(for: .seconds(configuration.animationTimings.notchToRectangle))
             withAnimation(.interactiveSpring(duration: configuration.animationTimings.contentAppearance)) {
                 animationPhase = .fullscreen
             }
-            
-            // Phase 4: Show content
+
+            // Phase 3: Show content
             try await Task.sleep(for: .seconds(0.2))
             withAnimation(.spring()) {
                 showContent = true
@@ -139,14 +136,14 @@ extension NotchTransition {
     
     private func dismissAnimation() {
         Task { @MainActor in
-            withAnimation(.easeInOut(duration: 0.3)) {
+            withAnimation(.easeInOut(duration: 0.2)) {
                 showContent = false
             }
-            
-            try await Task.sleep(for: .seconds(0.1))
-            
-            withAnimation(.bouncy(duration: 0.4)) {
-                animationPhase = .hidden
+
+            try await Task.sleep(for: .seconds(0.15))
+
+            withAnimation(.easeIn(duration: 0.35)) {
+                dismissOffset = getTheScreenRect().height
             }
         }
     }

@@ -19,7 +19,7 @@ public struct TransitionConfiguration {
         let contentAppearance: TimeInterval
         
         static public let `default` = AnimationTimings(
-            initial: 0.27,
+            initial: 0,
             notchToRectangle: 0.8,
             rectangleToFullscreen: 0.6,
             contentAppearance: 0.5
@@ -103,9 +103,9 @@ public struct TransitionConfiguration {
         static func radius(for device: DeviceDetector.DeviceType) -> CornerRadiusConfig {
             switch device {
             case .iPhoneWithDynamicIsland:
-                return CornerRadiusConfig(notch: 19, rectangle: 35, fullscreen: 0)
+                return CornerRadiusConfig(notch: 19, rectangle: 35, fullscreen: 55)
             case .iPhoneWithNotch:
-                return CornerRadiusConfig(notch: 15, rectangle: 30, fullscreen: 0)
+                return CornerRadiusConfig(notch: 15, rectangle: 30, fullscreen: 45)
             case .iPhoneWithoutNotch:
                 return CornerRadiusConfig(notch: 12, rectangle: 25, fullscreen: 0)
             case .iPad:

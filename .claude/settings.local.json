@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npx skills add https://github.com/twostraws/swiftui-agent-skill --skill swiftui-pro)",
+      "Bash(npx skills add https://github.com/twostraws/swiftui-agent-skill --skill swiftui-pro --yes)",
+      "Bash(npx skills add https://github.com/twostraws/swiftui-agent-skill --skill swiftui-pro -y)"
+    ]
+  }
+}
