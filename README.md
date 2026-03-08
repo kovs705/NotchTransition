@@ -267,6 +267,16 @@ The package includes example views in:
 
 - `Sources/NotchTransition/Example/NotchTransitionExample.swift`
 
+## Shader Attribution
+
+This package includes Metal shader code derived from [Inferno](https://github.com/twostraws/Inferno) by Paul Hudson and contributors.
+
+- Upstream project: `twostraws/Inferno`
+- License: MIT
+- Source: `https://github.com/twostraws/Inferno`
+
+At the time of writing, Inferno is distributed under the MIT License, with copyright attributed to Paul Hudson and other authors.
+
 ## License
 
 MIT. See [LICENSE](LICENSE).
