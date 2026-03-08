@@ -1,16 +1,15 @@
 <div align="center">
-  <img width="300" height="330" src="/Assets/NotchTransition.png" alt="">
+  <img width="300" height="330" src="/Assets/NotchTransition.png" alt="NotchTransition preview">
   <h1><b>NotchTransition</b></h1>
   <p>
-    <b>Library for custom navigation transition from the iPhone's notch</b>
+    <b>SwiftUI transition that expands from the iPhone notch / Dynamic Island into a full-screen view.</b>
     <br>
-    <i>Compatible with iOS 16.4 and later</i>
+    <i>iOS 16.4+ with Metal shader effects on iOS 17+.</i>
   </p>
 </div>
 
 <div align="center">
   <a href="https://swift.org">
-<!--     <img src="https://img.shields.io/badge/Swift-5.9%20%7C%206-orange.svg" alt="Swift Version"> -->
     <img src="https://img.shields.io/badge/Swift-5.9-orange.svg" alt="Swift Version">
   </a>
   <a href="https://www.apple.com/ios/">
@@ -21,30 +20,19 @@
   </a>
 </div>
 
-## Features
+## What It Does
 
-- 🏝️ **Adaptive Design**: Automatically detects and adapts to different iPhone models (Dynamic Island, Notch, or older devices)
-- 📱 **Universal Support**: Works on all iPhone models and iPad
-- ⚡ **Smooth Animations**: Bouncy, fluid animations with customizable timing
-- 🎨 **Themeable**: Support for custom colors, materials, and backgrounds
-- 🛠️ **Configurable**: Multiple preset configurations (default, slow) and full customization
-- 📦 **Easy Integration**: Simple SwiftUI view modifier for quick implementation
-- 🔧 **iOS 16+**: Built for modern iOS with SwiftUI best practices
-
-## Device Support
-
-| Device Type | Screen Sizes | Animation Adaptation |
-|-------------|--------------|---------------------|
-| **Dynamic Island** | iPhone 14 Pro, 15 series, 16 series | Native Dynamic Island dimensions |
-| **Notch** | iPhone X, XS, 11, 12, 13 series | Scaled notch dimensions |
-| **No Notch** | iPhone SE, 8, 7 and older | Simulated island effect |
-| **iPad** | All iPad models | Larger dimensions for tablet |
+- Starts from the notch / Dynamic Island area.
+- Expands into a rounded black shell.
+- Can show a shader-driven inner card before your destination view appears.
+- Dismisses back out with the shader hidden by default.
+- Adapts sizing for Dynamic Island devices, notch devices, older iPhones, and iPad.
 
 ## Installation
 
 ### Swift Package Manager
 
-Add the following to your `Package.swift` file:
+Add the package:
 
 ```swift
 dependencies: [
@@ -52,170 +40,233 @@ dependencies: [
 ]
 ```
 
-Or add it through Xcode:
-1. File → Add Package Dependencies
-2. Enter the repository URL
-3. Select the version and add to your target
+Then add `NotchTransition` to your target dependencies.
 
-## Quick Start
-
-### Basic Usage
+## Basic Usage
 
 ```swift
 import SwiftUI
 import NotchTransition
 
 struct ContentView: View {
-
-    /// One bool stands for animation of transition + presenting view, if `false` - screen dismisses
     @State private var showTransition = false
-    
+
     var body: some View {
         Button("Show Transition") {
             showTransition = true
         }
         .notchTransition(isPresented: $showTransition) {
-            VStack {
-                Text("Hello from Dynamic Island!")
-                    .foregroundColor(.white)
-                
+            VStack(spacing: 24) {
+                Text("Hello from NotchTransition")
+                    .font(.largeTitle.bold())
+                    .foregroundStyle(.white)
+
                 Button("Close") {
                     showTransition = false
                 }
                 .buttonStyle(.borderedProminent)
             }
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
+            .background(.black)
         }
     }
 }
 ```
 
-### Predefined Configurations
+## Recommended API
 
-// Slow animation
-.notchTransitionSlow(isPresented: $showSlow) {
-    SlowContent()
-}
+The easiest API is the direct modifier overload where the important options are visible in the call site:
 
-// Themed with custom colors
+```swift
 .notchTransition(
+    isPresented: $showTransition,
+    animationTimings: .default,
+    backgroundColor: .black,
+    material: .ultraThinMaterial,
+    innerViewStyle: .gradientFill,
+    innerSurfaceLayout: .screenshot,
+    showsInnerViewOnDismiss: false
+) {
+    DestinationView()
+}
+```
+
+### Parameters
+
+- `animationTimings`: transition speed preset or custom timings.
+- `backgroundColor`: color of the outer expanding shell.
+- `material`: optional backdrop material shown when fullscreen.
+- `innerViewStyle`: shader or fill used for the inner card.
+- `innerSurfaceLayout`: spacing of the inner card inside the black shell during the rectangle phase.
+- `showsInnerViewOnDismiss`: whether the shader card becomes visible again while dismissing. Default is `false`.
+
+## Presets
+
+### Timing presets
+
+```swift
+.notchTransition(
+    isPresented: $showSlow,
+    animationTimings: .slow
+) {
+    SlowView()
+}
+```
+
+### Theme helper
+
+```swift
+.notchTransitionThemed(
     isPresented: $showThemed,
-    backgroundColor: .purple,
+    backgroundColor: .cyan,
     material: .ultraThinMaterial
 ) {
-    ThemedContent()
+    ThemedView()
 }
 ```
 
-### Custom Configuration
+### Slow helper
 
 ```swift
-let customConfig = TransitionConfiguration(
-    animationTimings: TransitionConfiguration.AnimationTimings(
-        initial: 0.1,
-        notchToRectangle: 1.2,
-        rectangleToFullscreen: 0.8,
-        contentAppearance: 0.5
-    ),
-    backgroundColor: .indigo,
-    backgroundMaterial: .regularMaterial
+.notchTransitionSlow(isPresented: $showSlow) {
+    SlowView()
+}
+```
+
+## Inner View Styles
+
+`InnerViewStyle` controls what appears inside the rounded inner card before your destination content fades in.
+
+```swift
+.sinebow
+.lightGrid
+.gradientFill
+.plain(.blue)
+.invisible
+```
+
+Notes:
+
+- On iOS 17+, `sinebow`, `lightGrid`, and `gradientFill` use Metal shaders.
+- On iOS 16.4 to iOS 16.x, those styles fall back to an animated gradient.
+- `.invisible` keeps only the outer black shell.
+
+## Inner Surface Layout
+
+`InnerSurfaceLayout` controls the screenshot-style spacing of the shader card inside the expanding black shell.
+
+Available presets:
+
+```swift
+.compact
+.screenshot
+.immersive
+```
+
+Custom layout:
+
+```swift
+let layout = TransitionConfiguration.InnerSurfaceLayout(
+    horizontalInset: 14,
+    topPadding: 10,
+    bottomPadding: 14
 )
 
 .notchTransition(
-    isPresented: $showCustom,
-    configuration: customConfig
+    isPresented: $showTransition,
+    innerSurfaceLayout: layout
 ) {
-    CustomContent()
+    DestinationView()
 }
 ```
 
-## Configuration Options
+## Dismiss Behavior
 
-### Animation Timings
+By default, the inner shader card stays hidden during dismiss:
 
 ```swift
-struct AnimationTimings {
-    let initial: TimeInterval               // Delay before animation starts
-    let notchToRectangle: TimeInterval      // Time to expand from notch to rectangle
-    let rectangleToFullscreen: TimeInterval // Time to expand to fullscreen
-    let contentAppearance: TimeInterval     // Time for content to appear
+.notchTransition(
+    isPresented: $showTransition,
+    showsInnerViewOnDismiss: false
+) {
+    DestinationView()
 }
 ```
 
-**Presets:**
-- `.default`: Balanced timing (0.27s, 0.8s, 0.6s, 0.5s)
-- `.slow`: Leisurely animations (0.4s, 1.2s, 0.8s, 0.7s)
-
-### Visual Customization
+If you want the shader card to reappear while dismissing:
 
 ```swift
-TransitionConfiguration(
-    backgroundColor: Color,        // Background color of the transition shape
-    backgroundMaterial: Material?  // Optional material effect for backdrop
+.notchTransition(
+    isPresented: $showTransition,
+    showsInnerViewOnDismiss: true
+) {
+    DestinationView()
+}
+```
+
+## Full Configuration Object
+
+If you want to construct and reuse one configuration, that still works:
+
+```swift
+let config = TransitionConfiguration(
+    animationTimings: .slow,
+    backgroundColor: .indigo,
+    backgroundMaterial: .regularMaterial,
+    innerViewStyle: .gradientFill,
+    innerSurfaceLayout: .screenshot,
+    showsInnerViewOnDismiss: false
 )
+
+.notchTransition(
+    isPresented: $showTransition,
+    configuration: config
+) {
+    DestinationView()
+}
 ```
 
-### Device Detection
-
-The library automatically detects your device type and adapts accordingly:
+There are also fluent helpers on `TransitionConfiguration`:
 
 ```swift
-// Get current device information
-let deviceType = DeviceDetector.currentDevice
-let topSafeArea = DeviceDetector.topSafeAreaInset
-let notchSize = DeviceDetector.notchDimensions(for: deviceType)
+let config = TransitionConfiguration.default
+    .innerViewStyle(.lightGrid)
+    .innerSurfaceLayout(.compact)
+    .showsInnerViewOnDismiss(true)
 ```
+
+Use them if you want. The direct modifier overload is usually easier to read.
 
 ## Animation Phases
 
-The transition consists of four distinct phases:
+1. Hidden -> Notch
+2. Notch -> Rectangle
+3. Rectangle -> Fullscreen
+4. Destination content fades in
 
-1. **Hidden** → **Notch**: Shape appears from the Dynamic Island/Notch area
-2. **Notch** → **Rectangle**: Expands to a rounded rectangle
-3. **Rectangle** → **Fullscreen**: Grows to fill the entire screen
-4. **Content Appearance**: Your content fades in with animation
+On dismiss, destination content fades out first, then the shell exits. The inner shader is hidden by default during that dismiss path.
+
+## Device Support
+
+| Device Type | Behavior |
+|-------------|----------|
+| Dynamic Island iPhones | Uses native Dynamic Island dimensions |
+| Notch iPhones | Uses scaled notch dimensions |
+| Older iPhones | Simulates a notch-origin transition |
+| iPad | Uses larger tablet sizing |
 
 ## Requirements
 
 - iOS 16.4+
-- Xcode 15.0+
+- Xcode 15+
 - Swift 5.9+
 
-## Examples
+## Example
 
-The library includes comprehensive example showing:
+The package includes example views in:
 
-- Basic implementation
-- Different animation speeds
-- Custom themes and materials
-- Device-specific adaptations
-- Advanced configurations
-
-Run the example project to see all features in action.
-Sources/NotchTransition/Example/NotchTransitionExample.swift with Preview Canvas opened
-
-
-## Contributing
-
-Contributions are welcome! Please feel free to submit a Pull Request. For major changes, please open an issue first to discuss what you would like to change!
-
-### Development Setup
-
-1. Clone the repository
-2. Open `Package.swift` in Xcode
-3. Make your changes
-4. Submit a pull request
+- `Sources/NotchTransition/Example/NotchTransitionExample.swift`
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
-## Support
-
-If you encounter any issues or have questions:
-
-1. Check the [Issues](https://github.com/kovs705/NotchTransition/issues) page
-2. Create a new issue with detailed information
-3. Include device model, iOS version, and code samples
-
----
-Inspired by iOS Dynamic Island transition on X
+MIT. See [LICENSE](LICENSE).

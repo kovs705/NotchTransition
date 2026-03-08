@@ -8,6 +8,22 @@
 
 import SwiftUI
 
+// MARK: - Inner View Style
+
+/// The visual surface that morphs from the card into the full screen.
+public enum InnerViewStyle {
+    /// 10 twisting rainbow lines — Inferno `sinebow` shader (iOS 17+, gradient fallback on iOS 16).
+    case sinebow
+    /// Grid of pulsing multi-colored lights — Inferno `lightGrid` shader (iOS 17+, gradient fallback on iOS 16).
+    case lightGrid
+    /// Rotating full-screen color gradient — Inferno `animatedGradientFill` shader (iOS 17+, gradient fallback on iOS 16).
+    case gradientFill
+    /// A solid color fill.
+    case plain(Color)
+    /// Transparent — the outer black shape is the only visible layer.
+    case invisible
+}
+
 // MARK: - Transition Configuration
 public struct TransitionConfiguration {
     
@@ -30,6 +46,55 @@ public struct TransitionConfiguration {
             notchToRectangle: 1.2,
             rectangleToFullscreen: 0.8,
             contentAppearance: 0.7
+        )
+    }
+
+    // MARK: - Inner Surface Layout
+    public struct InnerSurfaceLayout {
+        /// Left and right inset applied to the shader/content card during the rectangle phase.
+        public let horizontalInset: CGFloat
+        /// Extra spacing between the notch bottom edge and the shader/content card.
+        public let topPadding: CGFloat
+        /// Bottom spacing between the shader/content card and the outer black shell.
+        public let bottomPadding: CGFloat
+
+        public init(
+            horizontalInset: CGFloat,
+            topPadding: CGFloat,
+            bottomPadding: CGFloat
+        ) {
+            self.horizontalInset = horizontalInset
+            self.topPadding = topPadding
+            self.bottomPadding = bottomPadding
+        }
+
+        static func defaultLayout(
+            rectangleWidth: CGFloat,
+            rectangleHeight: CGFloat
+        ) -> InnerSurfaceLayout {
+            InnerSurfaceLayout(
+                horizontalInset: min(max(rectangleWidth * 0.06, 10), 18),
+                topPadding: min(max(rectangleHeight * 0.035, 6), 12),
+                bottomPadding: min(max(rectangleHeight * 0.05, 8), 16)
+            )
+        }
+
+        public static let compact = InnerSurfaceLayout(
+            horizontalInset: 8,
+            topPadding: 4,
+            bottomPadding: 8
+        )
+
+        public static let screenshot = InnerSurfaceLayout(
+            horizontalInset: 12,
+            topPadding: 8,
+            bottomPadding: 12
+        )
+
+        public static let immersive = InnerSurfaceLayout(
+            horizontalInset: 6,
+            topPadding: 2,
+            bottomPadding: 6
         )
     }
     
@@ -122,18 +187,31 @@ public struct TransitionConfiguration {
     let cornerRadius: CornerRadiusConfig
     let backgroundColor: Color
     let backgroundMaterial: Material?
-    
+    public let innerViewStyle: InnerViewStyle
+    public let innerSurfaceLayout: InnerSurfaceLayout
+    public let showsInnerViewOnDismiss: Bool
+
     public init(
         animationTimings: AnimationTimings = .default,
         backgroundColor: Color = .black,
-        backgroundMaterial: Material? = nil
+        backgroundMaterial: Material? = nil,
+        innerViewStyle: InnerViewStyle = .sinebow,
+        innerSurfaceLayout: InnerSurfaceLayout? = nil,
+        showsInnerViewOnDismiss: Bool = false
     ) {
         let device = DeviceDetector.currentDevice
+        let sizes = DeviceSizes.sizes(for: device)
         self.animationTimings = animationTimings
-        self.deviceSizes = DeviceSizes.sizes(for: device)
+        self.deviceSizes = sizes
         self.cornerRadius = CornerRadiusConfig.radius(for: device)
         self.backgroundColor = backgroundColor
         self.backgroundMaterial = backgroundMaterial
+        self.innerViewStyle = innerViewStyle
+        self.innerSurfaceLayout = innerSurfaceLayout ?? InnerSurfaceLayout.defaultLayout(
+            rectangleWidth: sizes.rectangleWidth,
+            rectangleHeight: sizes.rectangleHeight
+        )
+        self.showsInnerViewOnDismiss = showsInnerViewOnDismiss
     }
     
     // MARK: - Predefined Configurations
@@ -145,11 +223,83 @@ public struct TransitionConfiguration {
     
     public static func themed(
         backgroundColor: Color,
-        material: Material? = .ultraThinMaterial
+        material: Material? = .ultraThinMaterial,
+        innerSurfaceLayout: InnerSurfaceLayout? = nil,
+        showsInnerViewOnDismiss: Bool = false
     ) -> TransitionConfiguration {
         TransitionConfiguration(
             backgroundColor: backgroundColor,
-            backgroundMaterial: material
+            backgroundMaterial: material,
+            innerSurfaceLayout: innerSurfaceLayout,
+            showsInnerViewOnDismiss: showsInnerViewOnDismiss
+        )
+    }
+}
+
+public extension TransitionConfiguration {
+    func animationTimings(_ value: AnimationTimings) -> Self {
+        TransitionConfiguration(
+            animationTimings: value,
+            backgroundColor: backgroundColor,
+            backgroundMaterial: backgroundMaterial,
+            innerViewStyle: innerViewStyle,
+            innerSurfaceLayout: innerSurfaceLayout,
+            showsInnerViewOnDismiss: showsInnerViewOnDismiss
+        )
+    }
+
+    func transitionBackgroundColor(_ value: Color) -> Self {
+        TransitionConfiguration(
+            animationTimings: animationTimings,
+            backgroundColor: value,
+            backgroundMaterial: backgroundMaterial,
+            innerViewStyle: innerViewStyle,
+            innerSurfaceLayout: innerSurfaceLayout,
+            showsInnerViewOnDismiss: showsInnerViewOnDismiss
+        )
+    }
+
+    func backgroundMaterial(_ value: Material?) -> Self {
+        TransitionConfiguration(
+            animationTimings: animationTimings,
+            backgroundColor: backgroundColor,
+            backgroundMaterial: value,
+            innerViewStyle: innerViewStyle,
+            innerSurfaceLayout: innerSurfaceLayout,
+            showsInnerViewOnDismiss: showsInnerViewOnDismiss
+        )
+    }
+
+    func innerViewStyle(_ value: InnerViewStyle) -> Self {
+        TransitionConfiguration(
+            animationTimings: animationTimings,
+            backgroundColor: backgroundColor,
+            backgroundMaterial: backgroundMaterial,
+            innerViewStyle: value,
+            innerSurfaceLayout: innerSurfaceLayout,
+            showsInnerViewOnDismiss: showsInnerViewOnDismiss
+        )
+    }
+
+    func innerSurfaceLayout(_ value: InnerSurfaceLayout) -> Self {
+        TransitionConfiguration(
+            animationTimings: animationTimings,
+            backgroundColor: backgroundColor,
+            backgroundMaterial: backgroundMaterial,
+            innerViewStyle: innerViewStyle,
+            innerSurfaceLayout: value,
+            showsInnerViewOnDismiss: showsInnerViewOnDismiss
+        )
+    }
+
+    func showsInnerViewOnDismiss(_ value: Bool) -> Self {
+        TransitionConfiguration(
+            animationTimings: animationTimings,
+            backgroundColor: backgroundColor,
+            backgroundMaterial: backgroundMaterial,
+            innerViewStyle: innerViewStyle,
+            innerSurfaceLayout: innerSurfaceLayout,
+            showsInnerViewOnDismiss: value
         )
     }
 }

@@ -81,6 +81,30 @@ private struct NotchTransitionModifier<TransitionContent: View>: ViewModifier {
 
 @available(iOS 16.4, *)
 public extension View {
+    /// Present a view with Dynamic Island transition animation using explicit visual parameters.
+    func notchTransition<Content: View>(
+        isPresented: Binding<Bool>,
+        animationTimings: TransitionConfiguration.AnimationTimings = .default,
+        backgroundColor: Color = .black,
+        material: Material? = nil,
+        innerViewStyle: InnerViewStyle = .sinebow,
+        innerSurfaceLayout: TransitionConfiguration.InnerSurfaceLayout? = nil,
+        showsInnerViewOnDismiss: Bool = false,
+        @ViewBuilder content: @escaping () -> Content
+    ) -> some View {
+        notchTransition(
+            isPresented: isPresented,
+            configuration: TransitionConfiguration(
+                animationTimings: animationTimings,
+                backgroundColor: backgroundColor,
+                backgroundMaterial: material,
+                innerViewStyle: innerViewStyle,
+                innerSurfaceLayout: innerSurfaceLayout,
+                showsInnerViewOnDismiss: showsInnerViewOnDismiss
+            ),
+            content: content
+        )
+    }
 
     /// Present a view with Dynamic Island transition animation
     func notchTransition<Content: View>(
