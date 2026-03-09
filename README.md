@@ -13,7 +13,7 @@
     <img src="https://img.shields.io/badge/Swift-5.9-orange.svg" alt="Swift Version">
   </a>
   <a href="https://www.apple.com/ios/">
-    <img src="https://img.shields.io/badge/iOS-16.4%2B-blue.svg" alt="iOS">
+    <img src="https://img.shields.io/badge/iOS-17.0%2B-blue.svg" alt="iOS">
   </a>
   <a href="LICENSE">
     <img src="https://img.shields.io/badge/License-MIT-green.svg" alt="License: MIT">
