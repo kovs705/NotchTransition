@@ -12,6 +12,7 @@ DerivedData/
 .goose/
 .skills/
 .windsurf/
+skills/
 skills-lock.json
 AGENTS.md
 CLAUDE.md
